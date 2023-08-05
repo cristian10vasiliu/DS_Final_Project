@@ -1,0 +1,50 @@
+syntax = "proto3";
+option java_multiple_files = true;
+option java_package = "bookingService";
+option java_outer_classname = "bookingServiceImpl";
+
+//first service with three remote procedure calls
+service booking{
+
+//first RPC user login
+	rpc login(loginRequest) returns (loginResponse);
+
+//second RPC book an appointment
+	rpc bookAppointment(appointmentRequest) returns (appointmentResponse);
+
+//cancel an appointment RPC
+	rpc cancelAppointment(cancelAppointmentRequest) returns (cancelAppointmentResponse);
+}
+
+//define the request and response messages structure for login RPC
+message loginRequest{
+	string userName = 1;
+	string password = 2;
+}
+
+message loginResponse{
+	string responseMessage = 1;
+	int32 responseCode =2;
+}
+
+//define the request and response messages structure for appointment RPC
+message appointmentRequest{
+	string  patientName = 1;
+	string  appointment_time = 2;
+}
+
+message appointmentResponse{
+	string appointmentNumber =1;
+}
+
+//define the request and response messages structure for cancel appointment RPC
+message cancelAppointmentRequest{
+	string patientName = 1;
+	string appointmentNumber = 2;
+}
+
+message cancelAppointmentResponse{
+	bool appointmentCancelled = 1;
+}
+
+

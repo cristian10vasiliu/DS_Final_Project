@@ -1,0 +1,53 @@
+syntax = "proto3";
+option java_multiple_files = true;
+option java_package = "paymentService";
+option java_outer_classname = "paymentServiceImpl";
+
+//first service with three remote procedure calls
+service payment{
+
+//first RPC user to make a payment
+	rpc makePayment(paymentRequest) returns (paymentResponse);
+
+//second RPC view the payment history
+	rpc paymentHistory(paymentHistoryRequest) returns (stream paymentHistoryResponse);
+
+//generate invoice for the payment RPC
+	rpc generateInvoice(generateInvoiceRequest) returns (generateInvoiceRequestResponse);
+}
+
+//define the request and response messages structure for payment RPC
+message paymentRequest{
+	string userName = 1;
+	double amount = 2;
+	string cardNumber = 3;
+}
+
+message paymentResponse{
+	bool paymentSuccessful = 1;
+	string paymentId = 2;
+
+}
+
+//define the request and response messages structure for payment history RPC
+message paymentHistoryRequest{
+	string  patientName = 1;
+
+}
+
+message paymentHistoryResponse{
+	string paymentId =1;
+	double amount = 2;
+	string paymentDate = 3;
+}
+
+//define the request and response messages structure for generate invoice RPC
+message generateInvoiceRequest{
+	string patientName = 1;
+	string service = 2;
+	double amount =3;
+}
+
+message generateInvoiceRequestResponse{
+	bool invoiceCreated = 1;
+}

@@ -1,0 +1,47 @@
+syntax = "proto3";
+option java_multiple_files = true;
+option java_package = "patientManagementService";
+option java_outer_classname = "patientManagementServiceImpl";
+
+service patientManagement{
+
+//first RPC add a patient record
+	rpc addRecords(stream addRequest) returns (addResponse);
+
+//second RPC update a record
+	rpc updateRecord(stream updateRequest) returns (stream updateResponse);
+
+//delete a record RPC
+	rpc deleteRecord(deleteRecordRequest) returns (deleteRecordResponse);
+}
+
+//define the request and response messages structure add a record RPC
+message addRequest{
+	string patientName = 1;
+	int32 age = 2;
+	string address = 3;
+}
+
+message addResponse{
+	bool isSuccessful = 1;
+}
+
+//define the request and response messages structure for update a record RPC
+message updateRequest{
+	string  patientName = 1;
+	string address = 2;
+}
+
+message updateResponse{
+	bool isSuccessful = 1;
+}
+
+//define the request and response messages structure for delete a record RPC
+message deleteRecordRequest{
+	string patientName = 1;
+
+}
+
+message deleteRecordResponse{
+	bool deleteSuccessful = 1;
+}
