@@ -34,7 +34,7 @@ public class bookingServiceServer extends bookingImplBase {
 			
 			//port number where server will be listening for clients
 			int port = Integer.valueOf( properties.getProperty("service_port") );
-			
+			System.out.println("\nPort number " + port);
 			//create a server on the specific port and attach the service bookingServer to it, build the server and start it
 			//the server is kept running so the clients can contact it until is externally terminated
 			//as it is throwing checked exceptions we need to declare that the method is throwing the specific exceptions or use try catch statements
@@ -45,6 +45,7 @@ public class bookingServiceServer extends bookingImplBase {
 				//log information on the server console that the server has started 
 				logger.info("Server started and listening on port " + port );	
 				server.awaitTermination();	
+				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -90,7 +91,8 @@ public class bookingServiceServer extends bookingImplBase {
 			}
 			
 		}//register service
-
+		
+		//get properties
 		private Properties getProperties() {
 			Properties properties = null;
 			try (InputStream input = new FileInputStream("src/main/resources/bookingService.properties")) {
