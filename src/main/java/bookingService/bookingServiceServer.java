@@ -33,7 +33,7 @@ public class bookingServiceServer extends bookingImplBase {
 			bookingServer.registerService(properties);
 			
 			//port number where server will be listening for clients
-			int port = 50052;
+			int port = Integer.valueOf( properties.getProperty("service_port") );
 			
 			//create a server on the specific port and attach the service bookingServer to it, build the server and start it
 			//the server is kept running so the clients can contact it until is externally terminated
