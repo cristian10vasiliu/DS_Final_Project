@@ -10,10 +10,13 @@ import java.util.logging.Logger;
 import javax.jmdns.JmDNS;
 import javax.jmdns.ServiceInfo;
 
+//import com.distributed_systems.BookingService.loginResponse;
+
 import static io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall;
 import bookingService.bookingGrpc.bookingImplBase;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import io.grpc.stub.StreamObserver;
 import paymentService.paymentServiceServer;
 
 public class bookingServiceServer extends bookingImplBase {
@@ -115,5 +118,43 @@ public class bookingServiceServer extends bookingImplBase {
 	
 		 return properties;
 	}//get properties
+
+		@Override
+		public void login(loginRequest request, StreamObserver<loginResponse> responseObserver) {
+			System.out.println(" Received Login Credentials");
+			//i assumed the password and username for that record, stored in the database are this
+			
+			String dataBaseUserName ="xyz";
+			String dataBasePassword = "abc";
+			
+			//get the username and password from the requested login
+			String userName = request.getUserName();
+			String password = request.getPassword();
+			
+			
+			String loginMessage ;
+			
+			//first check if the username it is not in the database
+			if(!userName.equals(dataBaseUserName)) {
+				loginMessage = "No records found for " + userName;
+			} else { //if the username it is in the database
+				//check if the password is correct
+				if(password.equals(dataBasePassword)) {
+					loginMessage = "Login Successful!";
+				} else {
+					loginMessage = "Invalid Password!";
+				}
+			}//if statement
+			
+			//build the response
+			loginResponse response = loginResponse.newBuilder().setResponseMessage(loginMessage).build();
+			
+			//sending the reply , for each request
+			responseObserver.onNext(response);
+			responseObserver.onCompleted();
+			
+		}//login
+		
+		
 		
 }//class
