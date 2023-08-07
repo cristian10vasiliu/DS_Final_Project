@@ -5,7 +5,7 @@ option java_outer_classname = "patientManagementServiceImpl";
 
 service patientManagement{
 
-//first RPC add a patient record
+//first RPC add patients records
 	rpc addRecords(stream addRequest) returns (addResponse);
 
 //second RPC update a record

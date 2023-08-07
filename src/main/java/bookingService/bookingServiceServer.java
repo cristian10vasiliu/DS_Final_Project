@@ -89,7 +89,7 @@ public class bookingServiceServer extends bookingImplBase {
 				
 				Thread.sleep(1000);
 				//to unregister the service
-				jmdns.unregisterAllServices();
+				//jmdns.unregisterAllServices();
 				
 			} catch (IOException | InterruptedException e) {
 				// TODO Auto-generated catch block
@@ -137,7 +137,7 @@ public class bookingServiceServer extends bookingImplBase {
 			String password = request.getPassword();
 			
 			
-			String loginMessage ;
+			String loginMessage ; //responseMessage
 			
 			//first check if the username it is not in the database
 			if(!userName.equals(dataBaseUserName)) {

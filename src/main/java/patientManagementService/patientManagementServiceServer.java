@@ -128,7 +128,6 @@ public class patientManagementServiceServer extends patientManagementImplBase {
 				return new StreamObserver<addRequest>() {
 					ArrayList<Record> recordsToAdd = new ArrayList<>();
 					
-				
 					@Override
 					public void onNext(addRequest request) {
 						//print request message
@@ -154,6 +153,7 @@ public class patientManagementServiceServer extends patientManagementImplBase {
 					@Override
 					public void onCompleted() {
 						System.out.println("We received " + recordsToAdd.size() + " records to add to the database" );
+						
 						//print the name of the patients/records to add
 						for(int i = 0; i < recordsToAdd.size(); i++) {
 							System.out.println("Record number " + i + " is " + recordsToAdd.get(i).getPatientName());
@@ -191,7 +191,7 @@ public class patientManagementServiceServer extends patientManagementImplBase {
 					
 				}//for loop
 				
-				//constructing the apply for the client
+				//constructing the reply for the client
 				//if the record is found, then remove the record and set the value of the response to true
 				deleteRecordResponse response;
 				if(recordFound){
@@ -222,18 +222,18 @@ class Record{
 	private String address;
 	
 	//Constructor
-	
+	public Record(String patientName, int age, String address) {
+		this.patientName = patientName;
+		this.age = age;
+		this.address = address;
+	}
 	
 	//getters and setters 
 	public String getPatientName() {
 		return patientName;
 	}
 	
-	public Record(String patientName, int age, String address) {
-		this.patientName = patientName;
-		this.age = age;
-		this.address = address;
-	}
+	
 
 	public void setPatientName(String patientName) {
 		this.patientName = patientName;
