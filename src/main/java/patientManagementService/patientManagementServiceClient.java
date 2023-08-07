@@ -6,6 +6,7 @@ import bookingService.bookingGrpc;
 import bookingService.bookingServiceClient;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.stub.StreamObserver;
 
 public class patientManagementServiceClient {
 		//create a logger
@@ -31,7 +32,65 @@ public class patientManagementServiceClient {
 			//the stubs will be generated from the proto files
 			blockingStub = patientManagementGrpc.newBlockingStub(channel);
 			asyncStub = patientManagementGrpc.newStub(channel);
+			
+			addRecords();
+			
+			//closing the channel after the message was passed
+			channel.shutdown();
+			
 
 		}//main method
+		
+		//client add records method
+		public static void addRecords() {
+			StreamObserver<addResponse> responseObserver = new StreamObserver<addResponse>() {
+
+				@Override
+				public void onNext(addResponse request) {
+					System.out.println(request.getIsSuccessful());
+				}
+
+				@Override
+				public void onError(Throwable t) {
+					System.out.println(t.getMessage());
+					
+				}
+
+				@Override
+				public void onCompleted() {
+					System.out.println("Stream is compleated");
+					
+				}
+				
+			};
+			//calling the remote add records method
+			StreamObserver<addRequest> requestObserver = asyncStub.addRecords(responseObserver);
+			
+				
+				try {
+					requestObserver.onNext(addRequest.newBuilder().setPatientName("Don Doodle").setAge(25).setAddress("Caine Street").build());
+					Thread.sleep(500);
+					
+					requestObserver.onNext(addRequest.newBuilder().setPatientName("Marie Curie").setAge(22).setAddress("Chemist Lane").build());
+					Thread.sleep(500);
+					
+					requestObserver.onNext(addRequest.newBuilder().setPatientName("Tommy Furry").setAge(28).setAddress("Peace Boulevard").build());
+					Thread.sleep(500);
+					
+					// Mark the end of requests
+					requestObserver.onCompleted();
+					Thread.sleep(500);
+					
+					
+				} catch (InterruptedException e) {
+					System.out.println(e.getMessage());
+					e.printStackTrace();
+				}
+				
+				
+				
+			
+		}
+		
 		
 }//class

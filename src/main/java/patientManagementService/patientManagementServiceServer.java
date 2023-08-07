@@ -4,14 +4,17 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
+import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Logger;
 
 import javax.jmdns.JmDNS;
 import javax.jmdns.ServiceInfo;
 
+
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import io.grpc.stub.StreamObserver;
 import patientManagementService.patientManagementGrpc.patientManagementImplBase;
 import paymentService.paymentServiceServer;
 
@@ -19,7 +22,8 @@ public class patientManagementServiceServer extends patientManagementImplBase {
 
 	
 		private static final Logger logger = Logger.getLogger(patientManagementServiceServer.class.getName());
-
+		//array to represent the existing list of records 
+		ArrayList<Record> databaseRecords = new ArrayList<Record>();
 		
 		public static void main(String [] args) {
 			
@@ -49,6 +53,14 @@ public class patientManagementServiceServer extends patientManagementImplBase {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} 
+			
+			//list with records from the data base, mock data
+			ArrayList<Record> databaseRecords = new ArrayList<>();
+			databaseRecords.add(new Record("Jon Jinx",32,"Sunset Boulevard"));
+			databaseRecords.add(new Record("Ada Lone",22,"Stripe Street"));
+			databaseRecords.add(new Record("Michael Fox",55,"KillTown Avenue"));
+			
+			
 		}//main method
 		 
 			private void registerService(Properties properties) {
@@ -106,9 +118,101 @@ public class patientManagementServiceServer extends patientManagementImplBase {
 		
 			 return properties;
 		}//get properties
-			
-			
-		
+
+			//server implementation for add records RPC
+			@Override
+			public StreamObserver<addRequest> addRecords(StreamObserver<addResponse> responseObserver) {
+				// TODO Auto-generated method stub
+				
+				
+				return new StreamObserver<addRequest>() {
+					ArrayList<Record> recordsToAdd = new ArrayList<>();
+					
+				
+					@Override
+					public void onNext(addRequest request) {
+						//print request message
+						System.out.println("Add Records RPC. Receiving request: " + request);
+						
+						//every time when we get a request , the request values
+						//are passed to a constructor  to initialize a new record
+						//and the new created record is added to the list of records to be added
+						String patientName = request.getPatientName();
+						int age = request.getAge();
+						String address = request.getAddress();
+						
+						//we create a new record and add it to the list
+						recordsToAdd.add(new Record(patientName,age,address));
+					}
+
+					@Override
+					public void onError(Throwable t) {
+						//print error message
+						System.out.println(t.getMessage());	
+					}
+
+					@Override
+					public void onCompleted() {
+						System.out.println("We received " + recordsToAdd.size() + " records to add to the database" );
+						//print the name of the patients/records to add
+						for(int i = 0; i < recordsToAdd.size(); i++) {
+							System.out.println("Record number " + i + " is " + recordsToAdd.get(i).getPatientName());
+						}
+						
+						//add the records to the list 
+						databaseRecords.addAll(recordsToAdd);
+						
+						//construct the response
+						addResponse response = addResponse.newBuilder().setIsSuccessful(true).build();
+						responseObserver.onNext(response);
+						responseObserver.onCompleted();
+						
+					}
+				};
+			}
+					
+				
+				
 	
 	
 }//class
+
+class Record{
+	//instance variables
+	private String patientName;
+	private int age;
+	private String address;
+	
+	//Constructor
+	
+	
+	//getters and setters 
+	public String getPatientName() {
+		return patientName;
+	}
+	
+	public Record(String patientName, int age, String address) {
+		this.patientName = patientName;
+		this.age = age;
+		this.address = address;
+	}
+
+	public void setPatientName(String patientName) {
+		this.patientName = patientName;
+	}
+	public int getAge() {
+		return age;
+	}
+	public void setAge(int age) {
+		this.age = age;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	
+	
+	
+}//record class
