@@ -51,9 +51,11 @@ public class bookingServiceServer extends bookingImplBase {
 				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
+				System.out.println("exception in io");
 				e.printStackTrace();
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
+				System.out.println("Intrerupted exception");
 				e.printStackTrace();
 			} 
 			 
@@ -85,10 +87,11 @@ public class bookingServiceServer extends bookingImplBase {
 				
 				System.out.printf("Registering service with this info: \nName of service: %s \nType of service: %s \nService description: %s",serviceName,serviceType,serviceDescription);
 				
+				Thread.sleep(1000);
 				//to unregister the service
-				//jdmns.unregisterAllAervices();
+				jmdns.unregisterAllServices();
 				
-			} catch (IOException e) {
+			} catch (IOException | InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -113,12 +116,14 @@ public class bookingServiceServer extends bookingImplBase {
 		        System.out.println("\t service_port: " +properties.getProperty("service_port"));
 
 	        } catch (IOException ex) {
+	        	System.out.println("Can not acces the file!");
 	            ex.printStackTrace();
 	        }
 	
 		 return properties;
 	}//get properties
-
+		
+		//login RPC method
 		@Override
 		public void login(loginRequest request, StreamObserver<loginResponse> responseObserver) {
 			System.out.println(" Received Login Credentials");

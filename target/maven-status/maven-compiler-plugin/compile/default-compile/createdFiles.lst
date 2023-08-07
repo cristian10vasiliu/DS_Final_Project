@@ -25,12 +25,14 @@ bookingService\appointmentRequestOrBuilder.class
 paymentService\generateInvoiceRequest$Builder.class
 bookingService\cancelAppointmentRequest$Builder.class
 bookingService\appointmentResponseOrBuilder.class
+bookingService\bookingServiceClient.class
 patientManagementService\updateRequest$Builder.class
 paymentService\paymentHistoryRequestOrBuilder.class
 bookingService\bookingGrpc.class
 patientManagementService\patientManagementServiceImpl$1.class
 paymentService\paymentGrpc$paymentImplBase.class
 paymentService\paymentHistoryRequest$Builder.class
+paymentService\paymentServiceServer.class
 bookingService\cancelAppointmentResponse.class
 patientManagementService\patientManagementGrpc$patientManagementFileDescriptorSupplier.class
 patientManagementService\updateRequest.class
@@ -86,6 +88,7 @@ bookingService\bookingGrpc$bookingBlockingStub.class
 paymentService\paymentServiceImpl$1.class
 patientManagementService\patientManagementGrpc$1.class
 patientManagementService\updateResponse$Builder.class
+patientManagementService\patientManagementServiceServer.class
 paymentService\paymentHistoryRequest.class
 patientManagementService\patientManagementGrpc$patientManagementFutureStub.class
 patientManagementService\patientManagementGrpc$patientManagementMethodDescriptorSupplier.class
@@ -93,6 +96,7 @@ bookingService\bookingGrpc$bookingFutureStub.class
 patientManagementService\addRequestOrBuilder.class
 paymentService\paymentRequest$1.class
 bookingService\bookingGrpc$bookingFileDescriptorSupplier.class
+bookingService\bookingServiceServer.class
 paymentService\generateInvoiceRequest$1.class
 paymentService\paymentGrpc$paymentMethodDescriptorSupplier.class
 paymentService\paymentResponse$Builder.class
