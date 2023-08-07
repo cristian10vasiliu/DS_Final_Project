@@ -8,7 +8,7 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
 public class patientManagementServiceClient {
-	//create a logger
+		//create a logger
 		private static  Logger logger = Logger.getLogger(patientManagementServiceClient.class.getName());
 		
 		// to be able to connect with our server we need to create stubs on the client side
@@ -23,7 +23,7 @@ public class patientManagementServiceClient {
 			//create a channel that connects with the grpc server
 			//to establish connection we need to provide the server name and port
 			//usePlaintext denotes it is a unsecured channel
-			
+			//changend the port number to 50053- for patient management service
 			ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50053).usePlaintext().build();
 			
 			logger.info("client connection established " + channel.toString() );
