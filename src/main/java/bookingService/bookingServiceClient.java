@@ -25,7 +25,7 @@ public class bookingServiceClient {
 		//to establish connection we need to provide the server name and port
 		//usePlaintext denotes it is a unsecured channel
 		
-		ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50055).usePlaintext().build();
+		ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50052).usePlaintext().build();
 		
 		logger.info("client connection established " + channel.toString() );	
 		//the stubs will be generated from the proto files

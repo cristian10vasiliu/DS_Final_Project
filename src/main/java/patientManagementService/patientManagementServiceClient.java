@@ -25,7 +25,7 @@ public class patientManagementServiceClient {
 			//to establish connection we need to provide the server name and port
 			//usePlaintext denotes it is a unsecured channel
 			//changend the port number to 50053- for patient management service
-			ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50053).usePlaintext().build();
+			ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50005).usePlaintext().build();
 			
 			logger.info("client connection established " + channel.toString() );
 			
@@ -41,7 +41,10 @@ public class patientManagementServiceClient {
 
 		}//main method
 		
-		//client add records method
+		
+		
+		//asynchronous client-streaming, add records method
+		//client logic  for onNext(each massage on stream), on Error, onCompleted(completion of stream)
 		public static void addRecords() {
 			StreamObserver<addResponse> responseObserver = new StreamObserver<addResponse>() {
 
@@ -85,12 +88,8 @@ public class patientManagementServiceClient {
 				} catch (InterruptedException e) {
 					System.out.println(e.getMessage());
 					e.printStackTrace();
-				}
-				
-				
-				
-			
-		}
+				}			
+		}//add records
 		
 		
 }//class
