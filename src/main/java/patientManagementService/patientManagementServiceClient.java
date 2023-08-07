@@ -24,7 +24,7 @@ public class patientManagementServiceClient {
 			//create a channel that connects with the grpc server
 			//to establish connection we need to provide the server name and port
 			//usePlaintext denotes it is a unsecured channel
-			//changend the port number to 50053- for patient management service
+			//Changed the port number to 50053- for patient management service
 			ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50053).usePlaintext().build();
 			
 			logger.info("client connection established " + channel.toString() );
@@ -34,7 +34,7 @@ public class patientManagementServiceClient {
 			asyncStub = patientManagementGrpc.newStub(channel);
 			
 			//calling the RPC 
-			//addRecords();
+			addRecords();
 			
 			deleteRecord();
 			//closing the channel after the message was passed
