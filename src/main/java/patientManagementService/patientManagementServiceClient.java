@@ -25,7 +25,7 @@ public class patientManagementServiceClient {
 			//to establish connection we need to provide the server name and port
 			//usePlaintext denotes it is a unsecured channel
 			//changend the port number to 50053- for patient management service
-			ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50005).usePlaintext().build();
+			ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50053).usePlaintext().build();
 			
 			logger.info("client connection established " + channel.toString() );
 			
@@ -33,8 +33,10 @@ public class patientManagementServiceClient {
 			blockingStub = patientManagementGrpc.newBlockingStub(channel);
 			asyncStub = patientManagementGrpc.newStub(channel);
 			
-			addRecords();
+			//calling the RPC 
+			//addRecords();
 			
+			deleteRecord();
 			//closing the channel after the message was passed
 			channel.shutdown();
 			
@@ -44,7 +46,7 @@ public class patientManagementServiceClient {
 		
 		
 		//asynchronous client-streaming, add records method
-		//client logic  for onNext(each massage on stream), on Error, onCompleted(completion of stream)
+		//client logic for onNext(each massage on stream), on Error, onCompleted(completion of stream)
 		public static void addRecords() {
 			StreamObserver<addResponse> responseObserver = new StreamObserver<addResponse>() {
 
@@ -90,6 +92,20 @@ public class patientManagementServiceClient {
 					e.printStackTrace();
 				}			
 		}//add records
+		
+		//client implementation for delete a record RPC	
+		public static void deleteRecord() {
+			//creating the request message, setting the patient name for the record to be removed
+			deleteRecordRequest request = deleteRecordRequest.newBuilder().setPatientName("John").build();
+			
+			//Remotely calling the RPC to delete the record
+			deleteRecordResponse response = blockingStub.deleteRecord(request);
+			
+			//printing the response from server
+			System.out.println(response);
+			
+		}//delete a record method
+		
 		
 		
 }//class

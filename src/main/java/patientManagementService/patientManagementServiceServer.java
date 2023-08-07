@@ -170,8 +170,46 @@ public class patientManagementServiceServer extends patientManagementImplBase {
 					}
 				};
 			}
-					
+
+			//server implementation for delete a record RPC	
+			@Override
+			public void deleteRecord(deleteRecordRequest request,
+					StreamObserver<deleteRecordResponse> responseObserver) {
+				//print the name of the patient name from the record to be deleted
+				System.out.println("delete the record of patient with name " + request.getPatientName());
 				
+				// we start with the assumption assume that the database does not have any duplicate names/records
+				//boolean flag true if the patient name has a record in database, false if it is not found
+				//index of the record , if the record is found then we save his index so we can remove the record
+				int index = -1;
+				boolean recordFound = false;
+				for (int i = 0; i < databaseRecords.size();i++) {
+					if( databaseRecords.get(i).getPatientName().equalsIgnoreCase(request.getPatientName())) {
+						recordFound = true;
+						index = i;
+					}
+					
+				}//for loop
+				
+				//constructing the apply for the client
+				//if the record is found, then remove the record and set the value of the response to true
+				deleteRecordResponse response;
+				if(recordFound){
+					databaseRecords.remove(index);
+					response = deleteRecordResponse.newBuilder().setDeleteSuccessful(true).build();
+				} else {
+					response = deleteRecordResponse.newBuilder().setDeleteSuccessful(false).build();
+				}
+				
+				//sending the reply for each request
+				responseObserver.onNext(response);
+				
+				responseObserver.onCompleted();
+				
+			}//delete record
+					
+			
+			
 				
 	
 	
